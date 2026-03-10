@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Analysis</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <h1>Analysis Report</h1>
+            <p>Rule-based + Statistical assessment</p>
+          </div>
+        </div>
+        <div class="status">
+          <span class="dot" id="statusDot"></span>
+          <span id="statusText">Idle</span>
+          <span class="meta" id="packetCount">0 packets</span>
+        </div>
+      </header>
+
+      <section class="controls">
+        <a class="btn" href="/">Back</a>
+        <button class="btn primary" id="analyzeBtn">Run Analysis</button>
+      </section>
+
+      <section class="analysis">
+        <div class="analysis-head">
+          <h2>Risk Score</h2>
+          <div class="small">Explainable severity-based score</div>
+        </div>
+        <div class="analysis-body">
+          <div class="score">
+            <div class="score-label">Overall Risk</div>
+            <div class="score-value" id="riskScore">0</div>
+          </div>
+          <div class="analysis-meta" id="analysisMeta">
+            Stop capture before running analysis.
+          </div>
+        </div>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Parameters</h2>
+          <div class="small">Numbered settings used in analysis</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Parameter</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="paramRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Rule-Based Alerts</h2>
+          <div class="small">Explainable behavior-based rules</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Severity</th>
+              <th>Reason</th>
+              <th>Window</th>
+            </tr>
+          </thead>
+          <tbody id="ruleRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Statistical Alerts</h2>
+          <div class="small">Anomalies based on packet volume</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Severity</th>
+              <th>Reason</th>
+              <th>Window</th>
+            </tr>
+          </thead>
+          <tbody id="statRows"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="/static/analysis.js"></script>
+  </body>
+</html>

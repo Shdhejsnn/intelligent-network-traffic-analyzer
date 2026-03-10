@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Packet Monitor</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <h1>Live Packet Monitor</h1>
+            <p>Realtime capture view with rule + statistical detection</p>
+          </div>
+        </div>
+        <div class="status">
+          <span class="dot" id="statusDot"></span>
+          <span id="statusText">Idle</span>
+          <span class="meta" id="packetCount">0 packets</span>
+        </div>
+      </header>
+
+      <section class="controls">
+        <button class="btn primary" id="startBtn">Start</button>
+        <button class="btn" id="stopBtn">Stop</button>
+        <button class="btn danger" id="restartBtn">Restart</button>
+        <a class="btn" href="/analysis">Analyze</a>
+        <div class="hint">Restart clears DB and begins a fresh capture.</div>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Packets</h2>
+          <div class="small">Latest 200 entries</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Domain</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Protocol</th>
+              <th>Src Port</th>
+              <th>Dst Port</th>
+              <th>Size</th>
+            </tr>
+          </thead>
+          <tbody id="packetRows"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
