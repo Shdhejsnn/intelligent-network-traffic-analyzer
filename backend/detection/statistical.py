@@ -11,7 +11,7 @@ This module focuses on BEHAVIOR, not signatures.
 import statistics
 
 # Absolute minimum packets required to consider a spike
-MIN_PACKET_THRESHOLD = 30
+MIN_PACKET_THRESHOLD = 60
 
 # Multiplier over average traffic to qualify as abnormal
 PACKET_SPIKE_MULTIPLIER = 3

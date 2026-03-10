@@ -24,7 +24,7 @@ def fetch_packets():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT timestamp, src_ip, dst_ip, dst_port
+        SELECT timestamp, src_ip, dst_ip, dst_port, protocol, tcp_flags
         FROM packets
         ORDER BY timestamp
     """)
@@ -43,17 +43,26 @@ def build_flows():
     flows = defaultdict(lambda: {
         "packet_count": 0,
         "ports": set(),
+        "syn_count": 0,
+        "ack_count": 0,
+        "rst_count": 0,
         "start_time": None,
         "end_time": None
     })
 
-    for timestamp, src_ip, dst_ip, dst_port in packets:
+    for timestamp, src_ip, dst_ip, dst_port, protocol, tcp_flags in packets:
         window_start = int(timestamp // TIME_WINDOW) * TIME_WINDOW
         key = (src_ip, dst_ip, window_start)
 
         flow = flows[key]
         flow["packet_count"] += 1
         flow["ports"].add(dst_port)
+
+        if protocol == "TCP" and tcp_flags:
+            flags = set(str(tcp_flags))
+            flow["syn_count"] += 1 if "S" in flags else 0
+            flow["ack_count"] += 1 if "A" in flags else 0
+            flow["rst_count"] += 1 if "R" in flags else 0
 
         if flow["start_time"] is None:
             flow["start_time"] = window_start

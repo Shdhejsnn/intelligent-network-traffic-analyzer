@@ -6,9 +6,16 @@ from flask import Flask, jsonify, render_template, request
 
 from capture.controller import start_capture, stop_capture, restart_capture, get_status
 from analysis.engine import analyze_current_flows
-from detection.rule_based import PORT_SCAN_THRESHOLD, DOS_PACKET_THRESHOLD
+from detection.ml_based import MIN_TRAIN_SAMPLES, model_exists, train_isolation_forest
+from detection.rule_based import (
+    PORT_SCAN_THRESHOLD,
+    DOS_PACKET_THRESHOLD,
+    FAILED_CONNECTION_SYN_THRESHOLD,
+    FAILED_CONNECTION_RST_THRESHOLD,
+)
 from detection.statistical import MIN_PACKET_THRESHOLD, PACKET_SPIKE_MULTIPLIER
 from preprocessing.flow_builder import TIME_WINDOW
+from preprocessing.feature_extractor import FEATURE_WINDOW
 from storage.database import fetch_recent_packets, initialize_database
 
 
@@ -63,9 +70,24 @@ def api_analyze():
         {"id": 1, "name": "Time Window (seconds)", "value": TIME_WINDOW},
         {"id": 2, "name": "Port Scan Threshold (unique ports)", "value": PORT_SCAN_THRESHOLD},
         {"id": 3, "name": "DoS Burst Threshold (packets/window)", "value": DOS_PACKET_THRESHOLD},
-        {"id": 4, "name": "Min Packet Threshold (statistical)", "value": MIN_PACKET_THRESHOLD},
-        {"id": 5, "name": "Packet Spike Multiplier", "value": PACKET_SPIKE_MULTIPLIER},
+        {"id": 4, "name": "Failed Conn SYN Threshold", "value": FAILED_CONNECTION_SYN_THRESHOLD},
+        {"id": 5, "name": "Failed Conn RST Threshold", "value": FAILED_CONNECTION_RST_THRESHOLD},
+        {"id": 6, "name": "Min Packet Threshold (statistical)", "value": MIN_PACKET_THRESHOLD},
+        {"id": 7, "name": "Packet Spike Multiplier", "value": PACKET_SPIKE_MULTIPLIER},
+        {"id": 8, "name": "ML Feature Window (seconds)", "value": FEATURE_WINDOW},
+        {"id": 9, "name": "ML Min Training Samples", "value": MIN_TRAIN_SAMPLES},
     ]
+    return jsonify(result)
+
+
+@app.route("/api/ml/train", methods=["POST"])
+def api_ml_train():
+    status = get_status()
+    if status["running"]:
+        return jsonify({"error": "Stop capture before ML training."}), 409
+
+    result = train_isolation_forest(min_samples=MIN_TRAIN_SAMPLES)
+    result["model_trained"] = model_exists()
     return jsonify(result)
 
 

@@ -10,6 +10,7 @@ from time import time
 
 from scapy.all import AsyncSniffer
 
+from analysis.engine import auto_train_ml_with_terminal_report
 from capture.live_capture import process_packet
 from storage.database import clear_packets_and_alerts, get_packet_count
 
@@ -53,6 +54,7 @@ def stop_capture():
 
         _SNIFFER.stop()
         _SNIFFER = None
+        auto_train_ml_with_terminal_report()
         return True
 
 

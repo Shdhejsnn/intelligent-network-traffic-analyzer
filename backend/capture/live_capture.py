@@ -270,6 +270,7 @@ def process_packet(packet):
         "dst_port": None,
         "size": len(packet),
         "domain": None,
+        "tcp_flags": None,
     }
 
     # TCP packet
@@ -277,6 +278,7 @@ def process_packet(packet):
         packet_data["protocol"] = "TCP"
         packet_data["src_port"] = packet[TCP].sport
         packet_data["dst_port"] = packet[TCP].dport
+        packet_data["tcp_flags"] = str(packet[TCP].flags)
 
     # UDP packet
     elif UDP in packet:

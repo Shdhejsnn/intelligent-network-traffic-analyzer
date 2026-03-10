@@ -37,11 +37,91 @@
           <div class="score">
             <div class="score-label">Overall Risk</div>
             <div class="score-value" id="riskScore">0</div>
+            <div class="score-level" id="riskLevel">Low</div>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar">
+              <div class="score-bar-fill" id="riskBarFill"></div>
+            </div>
           </div>
           <div class="analysis-meta" id="analysisMeta">
             Stop capture before running analysis.
           </div>
         </div>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Detector Breakdown</h2>
+          <div class="small">How each layer contributed</div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Rule Alerts</div>
+            <div class="kpi-value" id="ruleCount">0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Statistical Alerts</div>
+            <div class="kpi-value" id="statCount">0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">ML Alerts</div>
+            <div class="kpi-value" id="mlCount">0</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>ML Status</h2>
+          <div class="small">Isolation Forest model lifecycle</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="mlStatusRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Threat Explanations</h2>
+          <div class="small">What happened, where, and likely cause</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Threat Type</th>
+              <th>Count</th>
+              <th>Where</th>
+              <th>What</th>
+              <th>Likely Cause</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody id="insightRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Top Abnormal Features</h2>
+          <div class="small">Highest deviation factors from ML anomalies</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Z-Score</th>
+              <th>Observed Value</th>
+            </tr>
+          </thead>
+          <tbody id="featureRows"></tbody>
+        </table>
       </section>
 
       <section class="table-wrap">
@@ -98,6 +178,26 @@
             </tr>
           </thead>
           <tbody id="statRows"></tbody>
+        </table>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>ML Anomaly Alerts</h2>
+          <div class="small">Unsupervised anomalies from traffic windows</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Severity</th>
+              <th>Reason</th>
+              <th>Window</th>
+            </tr>
+          </thead>
+          <tbody id="mlRows"></tbody>
         </table>
       </section>
     </div>
